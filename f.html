@@ -1,0 +1,44 @@
+@app.route('/livro', methods=['GET', 'POST'])
+def livro():
+    if request.method == 'POST':
+        if not request.form["form_livro"]:
+            flash("Preencher campo nome livro", "error")
+        if not request.form["Autor"]:
+            flash(" Autor ", "error")
+        if not request.form["ISBN"]:
+            flash(" ISBN", "error")
+        if not request.form["Resumo"]:
+            flash(" Resumo", "error")
+
+        else:
+            form_evento = usuario(nome_usuario=request.form["form_livro"],
+                                nome_autor=request.form['autor'],
+                                ISBN=request.form['ISBN'],
+                                resumo=request.form['resumo'])
+            print(form_evento)
+            form_evento.save()
+            db_session.close()
+            flash("Evento criado!!!", "success")
+            return redirect(url_for("inserir_livro"))
+
+
+@app.route('/usuario', methods=['GET', 'POST'])
+def usuario():
+    if request.method == 'POST':
+        if not request.form["form_usuario"]:
+            flash("Preencher campo nome do usuario", "error")
+        if not request.form["CPF"]:
+            flash(" CPF ", "error")
+        if not request.form["endereço"]:
+            flash(" endereço", "error")
+
+        else:
+            form_evento = Livro(titulo_livro=request.form["form_livro"],
+                                nome_autor=request.form['autor'],
+                                ISBN=request.form['ISBN'],
+                                resumo=request.form['resumo'])
+            print(form_evento)
+            form_evento.save()
+            db_session.close()
+            flash("Evento criado!!!", "success")
+            return redirect(url_for("inserir_livro"))
